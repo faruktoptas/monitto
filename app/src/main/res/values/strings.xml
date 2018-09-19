@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Monitto</string>
+    <string name="title_server_url">Server Url</string>
+    <string name="title_check">Check</string>
+</resources>
