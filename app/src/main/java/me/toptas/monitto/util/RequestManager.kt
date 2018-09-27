@@ -1,6 +1,10 @@
-package me.toptas.monitto
+package me.toptas.monitto.util
 
 import android.os.AsyncTask
+import me.toptas.monitto.isValidUrl
+import me.toptas.monitto.loge
+import me.toptas.monitto.logv
+import me.toptas.monitto.model.Site
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -8,9 +12,10 @@ import java.net.URL
 
 class RequestManager {
 
-    fun makeGetRequest(url: String, listener: OnResponseCodeListener) {
+    fun makeGetRequest(site: Site, listener: OnResponseCodeListener) {
+        val url = site.url
         if (url.isValidUrl()) {
-            val httpCall = HttpCall(url, listener)
+            val httpCall = HttpCall(site, listener)
             httpCall.execute()
             logv("Request sent: $url")
         } else {
@@ -18,14 +23,14 @@ class RequestManager {
         }
     }
 
-    private class HttpCall(private val url: String,
+    private class HttpCall(private val site: Site,
                            private val mOnResponseCodeListener: OnResponseCodeListener) : AsyncTask<String, Int, Int>() {
 
 
         override fun doInBackground(vararg params: String): Int? {
             var inputStream: InputStream? = null
             try {
-                val httpURLConnection = URL(url).openConnection() as HttpURLConnection
+                val httpURLConnection = URL(site.url).openConnection() as HttpURLConnection
                 httpURLConnection.readTimeout = 10000
                 httpURLConnection.connectTimeout = 15000
                 httpURLConnection.doInput = true
@@ -55,15 +60,15 @@ class RequestManager {
 
         override fun onPostExecute(httpCode: Int) {
             super.onPostExecute(httpCode)
-            mOnResponseCodeListener.onResponseCode(url, httpCode)
-            logv("Response code for $url -> $httpCode")
+            mOnResponseCodeListener.onResponseCode(site, httpCode)
+            logv("Response code for ${site.url} -> $httpCode")
         }
 
 
     }
 
     interface OnResponseCodeListener {
-        fun onResponseCode(url: String, code: Int)
+        fun onResponseCode(site: Site, code: Int)
     }
 
     companion object {

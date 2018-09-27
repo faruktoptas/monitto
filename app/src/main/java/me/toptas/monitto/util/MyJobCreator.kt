@@ -1,4 +1,4 @@
-package me.toptas.monitto
+package me.toptas.monitto.util
 
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobCreator

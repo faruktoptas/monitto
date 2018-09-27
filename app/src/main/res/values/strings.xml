@@ -2,4 +2,7 @@
     <string name="app_name">Monitto</string>
     <string name="title_server_url">Server Url</string>
     <string name="title_check">Check</string>
+    <string name="info_empty_list">Ooops! You have no added sites.</string>
+    <string name="title_save">Save</string>
+    <string name="title_add">Add</string>
 </resources>
