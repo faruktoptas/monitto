@@ -23,5 +23,6 @@ fun Activity.createLoadingDialog(): AlertDialog {
 
 fun Int.toStatus() = when (this) {
     200 -> Site.STATE_OK
+    -1 -> Site.STATE_UNKNOWN
     else -> Site.STATE_FAIL
 }

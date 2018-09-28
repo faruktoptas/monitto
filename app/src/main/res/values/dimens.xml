@@ -3,4 +3,5 @@
     <dimen name="default_padding">20dp</dimen>
 
     <dimen name="text_size_list">18sp</dimen>
+    <dimen name="ic_clear_margin">40dp</dimen>
 </resources>

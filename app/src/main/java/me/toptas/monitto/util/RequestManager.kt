@@ -1,6 +1,7 @@
 package me.toptas.monitto.util
 
 import android.os.AsyncTask
+import io.reactivex.Observable
 import me.toptas.monitto.isValidUrl
 import me.toptas.monitto.loge
 import me.toptas.monitto.logv
@@ -12,7 +13,7 @@ import java.net.URL
 
 class RequestManager {
 
-    fun makeGetRequest(site: Site, listener: OnResponseCodeListener) {
+    private fun makeGetRequest(site: Site, listener: OnResponseCodeListener) {
         val url = site.url
         if (url.isValidUrl()) {
             val httpCall = HttpCall(site, listener)
@@ -20,6 +21,17 @@ class RequestManager {
             logv("Request sent: $url")
         } else {
             loge("Url not valid")
+        }
+    }
+
+    fun makeGetRequestRx(site: Site): Observable<Pair<Site, Int>> {
+        return Observable.create<Pair<Site, Int>> {
+            makeGetRequest(site, object : OnResponseCodeListener {
+                override fun onResponseCode(site: Site, code: Int) {
+                    it.onNext(Pair(site, code))
+                    it.onComplete()
+                }
+            })
         }
     }
 

@@ -4,19 +4,12 @@ import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import me.toptas.monitto.logv
-import me.toptas.monitto.model.Site
 
-class MyJob : Job(), RequestManager.OnResponseCodeListener {
-
-
-    override fun onResponseCode(site: Site, code: Int) {
-        //PrefStorageImpl(context).setUrlStatus(url, code)
-    }
+class MyJob(private val manager: SiteManager) : Job() {
 
     override fun onRunJob(params: Params): Result {
         logv("Job ran successfully")
-        val url = PrefStorageImpl(context).getUrl()
-        //RequestManager.instance.makeGetRequest(url, this)
+        manager.checkAll(context)
         return Result.SUCCESS
     }
 

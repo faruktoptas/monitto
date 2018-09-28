@@ -1,10 +1,6 @@
 package me.toptas.monitto.ui.main
 
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+
 import kotlinx.android.synthetic.main.row_site.view.*
 import me.toptas.monitto.BR
 import me.toptas.monitto.R
@@ -18,7 +14,7 @@ class SiteListAdapter(private val listener: OnSiteClickListener) : BaseListAdapt
 
     override fun bindingVariableId() = BR.site
 
-    override fun bind(holder: BaseViewHolder, item: Site?) {
+    override fun bind(holder: BaseViewHolder<Site>, item: Site?) {
         holder.itemView.btnCheck.setOnClickListener {
             item?.apply {
                 listener.onSiteCheck(this)
