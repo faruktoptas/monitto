@@ -33,34 +33,53 @@ android {
     }
 }
 
-dependencies {
+dependencies { configuration ->
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:recyclerview-v7:$support_version"
 
-    implementation "android.arch.lifecycle:livedata:$arch_version"
-    implementation "android.arch.lifecycle:runtime:$arch_version"
-    implementation "android.arch.lifecycle:extensions:$arch_version"
+    support(configuration)
+    arch(configuration)
+    rx(configuration)
+    others(configuration)
+    test(configuration)
+}
 
-    kapt "android.arch.lifecycle:compiler:$arch_version"
+private static void support(configuration) {
+    def support_version = '27.1.1'
+    configuration.implementation "com.android.support:appcompat-v7:$support_version"
+    configuration.implementation "com.android.support:recyclerview-v7:$support_version"
+}
 
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    kapt "android.arch.persistence.room:compiler:1.0.0"
+private static void arch(configuration) {
+    def arch_version = '1.1.1'
+    def room_version = '1.0.0'
+    configuration.implementation "android.arch.lifecycle:livedata:$arch_version"
+    configuration.implementation "android.arch.lifecycle:runtime:$arch_version"
+    configuration.implementation "android.arch.lifecycle:extensions:$arch_version"
+    configuration.kapt "android.arch.lifecycle:compiler:$arch_version"
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
+    configuration.implementation "android.arch.persistence.room:runtime:$room_version"
+    configuration.kapt "android.arch.persistence.room:compiler:$room_version"
+}
 
+private static void rx(configuration) {
+    configuration.implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+    configuration.implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    configuration.implementation 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
+}
 
-    implementation "org.koin:koin-android:$koin_version"
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
+private static void others(configuration) {
+    def koin_version = '1.0.1'
+    configuration.implementation "org.koin:koin-android:$koin_version"
+    configuration.implementation "org.koin:koin-android-viewmodel:$koin_version"
+    configuration.implementation 'com.evernote:android-job:1.2.6'
+}
 
-
-    implementation 'com.evernote:android-job:1.2.6'
-
-    testImplementation "junit:junit:$junit_version"
-
-    androidTestImplementation "com.android.support.test:runner:$runner_version"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
+private static void test(configuration) {
+    def junit_version = '4.12'
+    def espresso_version = '3.0.2'
+    def runner_version = '1.0.2'
+    configuration.testImplementation "junit:junit:$junit_version"
+    configuration.androidTestImplementation "com.android.support.test:runner:$runner_version"
+    configuration.androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
 }
